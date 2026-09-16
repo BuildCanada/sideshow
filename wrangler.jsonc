@@ -10,4 +10,12 @@
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SideshowBoard"] }],
   "browser": { "binding": "BROWSER" },
   "observability": { "enabled": true },
+  // Build Canada deployment: serve only from the custom hostname (Cloudflare
+  // Access gates it at the edge) and skip the workers.dev / preview URLs.
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "sideshow.svc.buildcanada.com", "custom_domain": true }],
+  // Team members already pass Cloudflare Access, so reads need no sideshow
+  // token; writes (agents, MCP) still require SIDESHOW_TOKEN.
+  "vars": { "SIDESHOW_PUBLIC_READ": "full" },
 }
